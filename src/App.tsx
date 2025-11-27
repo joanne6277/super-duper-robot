@@ -3,111 +3,15 @@ import type { User, ContractData } from './types';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 
-// --- 引入頁面模組 (請確保這些檔案已建立於 src/pages/) ---
+// --- 引入頁面模組 ---
 import SearchContract from './pages/SearchContract';
-import CreateContract from './pages/CreateContract';
-// 引入新頁面
+
 import AcademicContract from './pages/AcademicContract';
 
-// 如果您還沒建立以下頁面，可以先暫時註解掉，或建立空白組件
-// import ContractDetail from './pages/ContractDetail';
-// import TemplateManagement from './pages/TemplateManagement';
-// import PermissionManagement from './pages/PermissionManagement';
-// import XuefaParams from './pages/XuefaParams';
-// import TufuParams from './pages/TufuParams';
-// import NotificationSettingsPage from './pages/NotificationSettings';
+// 引入 Mock Data
+import { sampleData, sampleUsers } from './utils/mockData';
 
-// --- 模擬資料 (實際開發建議移至 src/utils/mockData.ts) ---
-const sampleData: ContractData[] = [
-  { 
-    id: '1', 
-    contractTarget: { 
-        publicationId: 'P12345', 
-        type: '期刊', 
-        title: '範例合約一', 
-        volumeInfo: '10', // 修改為 string 以符合新的 ContractData
-        issnIsbn: '978-0-12345-678-9' // 補上
-    },
-    registrationInfo: { 
-      managementNo: 'MGT-001', 
-      departmentNo: 'DEP-A-001', 
-      departmentSubNo: 'SUB-01', 
-      newestNo: '是',
-      collector: '張三', // 新增
-      asResponsible: '李四', // 新增
-      isCurrent: '是', // 新增
-      contractVersion: [], // 新增
-      nonAiritiVersion: '' // 新增
-    },
-    basicInfo: { 
-      partyARep: '王大明', 
-      partyBRep: '陳小華', 
-      contractParty: ['甲方公司'], // 修改為 string[]
-      contractStartDate: '2024-01-01', 
-      contractEndDate: '2025-12-31', 
-      autoRenewYears: '1', 
-      autoRenewFrequency: '2', // 修改 key 名稱以符合新結構 (原 autoRenewTimes)
-      thereafter: '是', 
-      specialDateInfo: '', 
-      responsibleAS: '李四', 
-      responsibleCollection: '張三' 
-    },
-    rightsInfo: { // 新增
-        authorizationFormMain: '',
-        authorizationFormSub: '',
-        paymentType: '有償',
-        isOpenAccess: '無'
-    },
-    scopeInfo: { // 新增
-        thirdPartyPlatform_tws: '上_TWS',
-        thirdPartyPlatform_consent: [],
-        discoverySystem_selectionType: '單選',
-        discoverySystem_futurePlatforms: '含將來合作平台',
-        discoverySystem_includeCN: '含CN',
-        discoverySystem_platforms: [],
-        discoverySystem_consent: [],
-        comparisonSystem: '否',
-        nclClause_selectionType: '不上',
-        nclClause_doNotList: [],
-        nclClause_embargoRules: [],
-        listingLocation: '全球用戶',
-        status_al_cn: ''
-    },
-    otherClauses: { // 新增
-        usageRightsWarranty: '保證+甲方賠償',
-        userRightsProtection: '否',
-        terminationClause: '否',
-        forceMajeure: '否',
-        confidentiality: '否',
-        noOaOnOwnWebsite: '否',
-        legalIssueHandling: '雙方',
-        manuscriptAgreementMention: '否',
-        authorizationCopy: '否',
-        damages_hasClause: '否',
-        damages_description: ''
-    },
-    remittanceInfo: [], // 新增
-    terminationInfo: { // 新增
-        isTerminated: '否',
-        terminationReason: '',
-        terminationDate: '',
-        terminationMethod: ''
-    },
-    royaltyInfo: [], // 新增
-    remarks: '', // 新增
-    createdAt: new Date(),
-    maintenanceHistory: []
-  },
-];
-
-const sampleUsers: User[] = [
-  { 
-    id: 'user-1', name: '王大明 (Admin)', employeeId: '12345', email: 'admin@example.com', department: '學發部', 
-    permissions: { adminOnly: true, createMaintain: true, searchExport: true, downloadTemplate: true, maintainTemplate: true, maintainParams: '學發部', landingPage: '學發部' }, 
-    notificationSettings: { enabled: true, reportScopeMonths: 6, reportFrequency: 'monthly', selectedTeamMembers: ['user-1'] } 
-  },
-  // ... 其他使用者資料
-];
+// 原本的 sampleData 和 sampleUsers 宣告已移除，改從 utils/mockData 引入
 
 const App: React.FC = () => {
   // --- 全域狀態 ---
@@ -122,8 +26,8 @@ const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<string>('search-contract');
   const [expandedNavs, setExpandedNavs] = useState<string[]>(['學發部']);
 
-  // 資料狀態 (提升到 App 層級以便跨頁面共享)
-  const [contracts, setContracts] = useState<ContractData[]>(sampleData);
+  // 資料狀態
+  const [contracts] = useState<ContractData[]>(sampleData);
   const [shoppingCart, ] = useState<string[]>([]);
   const [showCart, setShowCart] = useState<boolean>(false);
   

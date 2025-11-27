@@ -95,7 +95,6 @@ export interface ContractData {
       isCurrent: '是' | '否';
       contractVersion: string[];
       nonAiritiVersion: string;
-      newestNo?: string; // 舊介面保留
   };
   basicInfo: {
       partyARep: string;
@@ -107,8 +106,6 @@ export interface ContractData {
       autoRenewFrequency: string;
       thereafter: '是' | '否';
       specialDateInfo: string;
-      responsibleAS?: string; // 舊介面保留
-      responsibleCollection?: string; // 舊介面保留
   };
   rightsInfo: {
       authorizationFormMain: string;
@@ -162,4 +159,17 @@ export interface SearchColumn {
   id: string;
   name: string;
   isDefault: boolean;
+}
+
+export interface FormFieldConfig {
+  id: string;
+  label: string;
+  type: 'text' | 'date' | 'radio' | 'tags' | 'group' | 'cascading-select' | 'custom' | 'select' | 'textarea';
+  options?: string[] | { [key: string]: string[] };
+  fullWidth?: boolean;
+  placeholder?: string;
+  fields?: FormFieldConfig[]; // For grouped fields
+  condition?: (formData: ContractData) => boolean;
+  component?: React.ComponentType<any>;
+  isReadOnly?: boolean;
 }
