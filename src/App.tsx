@@ -6,6 +6,9 @@ import Sidebar from './components/Sidebar';
 // --- 引入頁面模組 (請確保這些檔案已建立於 src/pages/) ---
 import SearchContract from './pages/SearchContract';
 import CreateContract from './pages/CreateContract';
+// 引入新頁面
+import AcademicContract from './pages/AcademicContract';
+
 // 如果您還沒建立以下頁面，可以先暫時註解掉，或建立空白組件
 // import ContractDetail from './pages/ContractDetail';
 // import TemplateManagement from './pages/TemplateManagement';
@@ -22,10 +25,76 @@ const sampleData: ContractData[] = [
         publicationId: 'P12345', 
         type: '期刊', 
         title: '範例合約一', 
-        volumeInfo: { format: 'volume_issue', volume: '10', issue: '2', year: '', month: '', description: '' },
+        volumeInfo: '10', // 修改為 string 以符合新的 ContractData
+        issnIsbn: '978-0-12345-678-9' // 補上
     },
-    registrationInfo: { issnIsbn: '978-0-12345-678-9', managementNo: 'MGT-001', departmentNo: 'DEP-A-001', departmentSubNo: 'SUB-01', newestNo: '是' },
-    basicInfo: { partyARep: '王大明', partyBRep: '陳小華', contractParty: '甲方公司', contractStartDate: '2024-01-01', contractEndDate: '2025-12-31', autoRenewYears: '1', autoRenewTimes: '2', thereafter: '是', specialDateInfo: '', responsibleAS: '李四', responsibleCollection: '張三' },
+    registrationInfo: { 
+      managementNo: 'MGT-001', 
+      departmentNo: 'DEP-A-001', 
+      departmentSubNo: 'SUB-01', 
+      newestNo: '是',
+      collector: '張三', // 新增
+      asResponsible: '李四', // 新增
+      isCurrent: '是', // 新增
+      contractVersion: [], // 新增
+      nonAiritiVersion: '' // 新增
+    },
+    basicInfo: { 
+      partyARep: '王大明', 
+      partyBRep: '陳小華', 
+      contractParty: ['甲方公司'], // 修改為 string[]
+      contractStartDate: '2024-01-01', 
+      contractEndDate: '2025-12-31', 
+      autoRenewYears: '1', 
+      autoRenewFrequency: '2', // 修改 key 名稱以符合新結構 (原 autoRenewTimes)
+      thereafter: '是', 
+      specialDateInfo: '', 
+      responsibleAS: '李四', 
+      responsibleCollection: '張三' 
+    },
+    rightsInfo: { // 新增
+        authorizationFormMain: '',
+        authorizationFormSub: '',
+        paymentType: '有償',
+        isOpenAccess: '無'
+    },
+    scopeInfo: { // 新增
+        thirdPartyPlatform_tws: '上_TWS',
+        thirdPartyPlatform_consent: [],
+        discoverySystem_selectionType: '單選',
+        discoverySystem_futurePlatforms: '含將來合作平台',
+        discoverySystem_includeCN: '含CN',
+        discoverySystem_platforms: [],
+        discoverySystem_consent: [],
+        comparisonSystem: '否',
+        nclClause_selectionType: '不上',
+        nclClause_doNotList: [],
+        nclClause_embargoRules: [],
+        listingLocation: '全球用戶',
+        status_al_cn: ''
+    },
+    otherClauses: { // 新增
+        usageRightsWarranty: '保證+甲方賠償',
+        userRightsProtection: '否',
+        terminationClause: '否',
+        forceMajeure: '否',
+        confidentiality: '否',
+        noOaOnOwnWebsite: '否',
+        legalIssueHandling: '雙方',
+        manuscriptAgreementMention: '否',
+        authorizationCopy: '否',
+        damages_hasClause: '否',
+        damages_description: ''
+    },
+    remittanceInfo: [], // 新增
+    terminationInfo: { // 新增
+        isTerminated: '否',
+        terminationReason: '',
+        terminationDate: '',
+        terminationMethod: ''
+    },
+    royaltyInfo: [], // 新增
+    remarks: '', // 新增
     createdAt: new Date(),
     maintenanceHistory: []
   },
@@ -112,21 +181,10 @@ const App: React.FC = () => {
         );
       
       case 'create-contract':
-        return (
-          <CreateContract 
-            existingContract={isEditMode ? currentContract : null}
-            onSave={(newData) => {
-              if (isEditMode) {
-                setContracts(prev => prev.map(c => c.id === newData.id ? newData : c));
-              } else {
-                setContracts(prev => [...prev, newData]);
-              }
-              navigateTo('search-contract');
-              setIsEditMode(false);
-            }}
-            onCancel={() => navigateTo('search-contract')}
-          />
-        );
+        // 這裡您可以選擇：
+        // 1. 如果「學發部」合約是唯一的類型，直接換成 AcademicContract
+        // 2. 或者保留 CreateContract 作為入口，裡面再選合約類型
+        return <AcademicContract />; 
 
       case 'contract-detail':
         // 請確保您有建立 ContractDetail.tsx，或在此直接放入簡單的顯示邏輯
