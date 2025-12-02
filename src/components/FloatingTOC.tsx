@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 // 引入章節設定 (請確保您的 src/config/contractConstants.ts 裡面有 export const tocSections)
-import { tocSections } from '../config/contractConstants'; 
+import { tocSections as defaultTocSections, tocSections } from '../config/contractConstants'; 
 
 interface FloatingTOCProps {
   onJump: (id: string) => void;
+    sections?: { id: string, label: string }[]; 
 }
 
 const FloatingTOC: React.FC<FloatingTOCProps> = ({ onJump }) => {
